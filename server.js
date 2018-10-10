@@ -29,3 +29,30 @@ app.post('/setName', (req,res) => {
 })
 
 app.listen(port, () => console.log(`Listening on port ${port}!`))
+
+
+// ***************** MongoDB stuff ***************** //
+const MongoClient = require('mongodb').MongoClient
+const mongoUrl = 'mongodb://mern-demo:mern-demo1@ds127843.mlab.com:27843/msm-general'
+
+app.get('/dbGetNames', (req, res) => {
+    MongoClient.connect(mongoUrl, function(err, client) { 
+        var db = client.db('msm-general')
+        var collection = db.collection("demo");
+        // Insert a single document
+        collection.find().toArray((err, result) => {
+          if(err) throw err;
+          res.send(result);
+        });
+    });  
+})
+
+app.post('/dbInsertName', (req, res) => {
+    MongoClient.connect(mongoUrl, function(err, client) { 
+        var db = client.db('msm-general')
+        var collection = db.collection("demo");
+        // Insert a single document
+        collection.insertOne(req.body);
+        res.send('done writing');
+    });  
+})
