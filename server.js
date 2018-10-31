@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const localPort = 9200
 const port = localPort
@@ -7,6 +8,7 @@ const port = localPort
 const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -19,7 +21,7 @@ app.get('/test', (req, res) => {
 var name = 'Bill'
 
 app.get('/name', (req, res) => {
-  res.send(name)
+  res.send({"name": name})
 })
 
 app.post('/setName', (req,res) => {
